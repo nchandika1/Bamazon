@@ -153,7 +153,6 @@ function addNewProduct() {
 }
 
 function bamazonManager() {
-	// First display all inventory
 	inquirer.prompt([
 		{
 			type: "list",
@@ -191,6 +190,8 @@ function bamazonManager() {
 // Connect to the database before starting anything
 connection.connect(function(err) {
 	if (err) throw err;
-		// Ready to perform Bamazon Manager functions
-		bamazonManager();
+	console.log("\nWELCOME TO BAMAZON MANAGER VIEW!");
+	console.log("---------------------------------\n");
+	// Ready to perform Bamazon Manager functions
+	bamazonManager();
 });

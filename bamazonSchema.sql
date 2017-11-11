@@ -1,3 +1,7 @@
+--
+--	PRODUCTS DATABASE
+--
+
 -- Delete database if it already exists --
 DROP DATABASE IF EXISTS bamazon_db;
 
@@ -6,6 +10,9 @@ CREATE DATABASE bamazon_db;
 
 -- Use this database for the following code --
 USE bamazon_db;
+
+-- DROP TABLE if an old one exists --
+DROP TABLE IF EXISTS products;
 
 -- Create a table called products and define its fields --
 CREATE TABLE products(
@@ -34,3 +41,47 @@ SELECT * FROM products WHERE (stock_quantity <= 20);
 SELECT * FROM products WHERE (product = "Quinoa");
 
 UPDATE products SET stock_quantity=50 WHERE product="Quinoa";
+
+--
+--	DEPARTMENT DATABASE
+--
+
+-- DROP TABLE if an old one exists --
+DROP TABLE IF EXISTS departments;
+
+CREATE TABLE departments (
+	id INTEGER(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	name VARCHAR(20) NOT NULL,
+	overhead INTEGER(20) DEFAULT 0
+);
+
+INSERT INTO departments (name, overhead)
+VALUES ("Shoe", 10000), ("Food", 5000), ("Apparel", 7500), ("Accessories", 2000), ("Sports", 5000), ("Pantry", 10000);
+
+INSERT INTO departments (name)
+VALUES ("Books");
+
+SELECT * FROM departments;
+
+-- EXAMPLE OF LEFT JOIN WITH DEPARTMENTS WITH AGGREGATED SALES FROM ALL PRODUCTS FOR THE CORRESPONDING DEPT --
+
+SELECT departments.name, SUM(products.sales) AS total_sales, departments.overhead
+FROM departments
+LEFT JOIN products
+ON departments.name = products.department
+GROUP BY products.department, departments.name, departments.overhead;
+
+SELECT departments.name, SUM(products.sales) AS total_sales, departments.overhead, (SUM(products.sales) - departments.overhead) AS total_profits
+FROM departments
+LEFT JOIN products
+ON departments.name = products.department
+GROUP BY products.department, departments.name, departments.overhead;
+
+
+
+
+
+
+
+
+
