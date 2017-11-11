@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 	database: "bamazon_db"
 });
 
-// Print database entries in a table format using console.table 
+// Pretty Print database entries in a table format using console.table 
 function prettyPrintAllProducts(response) {
 	var columns = ['ID', 'Product', 'Department', 'Price ($)', 'Stock'];
 	var entries = [];
@@ -119,8 +119,9 @@ function getOrderInformation() {
 	});
 }
 
-// Begin taking orders.  First display all existing inventory so the user can choose.
-function startOrders() {
+// Main Function for Bamazon  
+// First display all existing inventory so the user can choose.
+function bamazon() {
 	console.log("\nWELCOME TO BAMAZON!");
 	console.log("-------------------\n");
 	// Get all the entries from the table and pretty print the values
@@ -132,14 +133,11 @@ function startOrders() {
 	});
 }
 
-// Connect to the database first before starting anything
-function bamazon() {
-	// Connect to the DB first so we can start the queries
-	connection.connect(function(err) {
-		if (err) throw err;
-		startOrders();
+// Connect to the DB first so we can start the queries
+connection.connect(function(err) {
+	if (err) throw err;
+		// Run Bamazon
+		bamazon();
 	});
 }
 
-// Run Bamazon
-bamazon();

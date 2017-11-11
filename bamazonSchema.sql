@@ -12,7 +12,7 @@ CREATE TABLE products(
 	id INTEGER(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	product VARCHAR(20) NOT NULL,
 	department VARCHAR(20) NOT NULL,
-	price FLOAT(20) DEFAULT 0.00,
+	price DECIMAL(10, 2) DEFAULT 0,
 	stock_quantity INTEGER(10) DEFAULT 0
 );
 
@@ -28,3 +28,9 @@ VALUES ("Basketball", "Sports", 5.00, 200), ("Baseball Glove", "Sports", 7.50, 2
 
 -- View inventory --
 SELECT * FROM products;
+
+SELECT * FROM products WHERE (stock_quantity <= 20);
+
+SELECT * FROM products WHERE (product = "Quinoa");
+
+UPDATE products SET stock_quantity=50 WHERE product="Quinoa";
