@@ -71,6 +71,11 @@ LEFT JOIN products
 ON departments.name = products.department
 GROUP BY products.department, departments.name, departments.overhead;
 
+
+-- THIS IS WHAT IS USED IN THE SUPERVISOR VIEW OF THE DEPARTMENTS -- 
+-- THIS USES ALIASING, GROUP BY and JOIN to calculate --
+-- total product sales for all products in products grouped by department -- 
+-- total profits by subtracting overhead costs from total sales for that department -- 
 SELECT departments.name, SUM(products.sales) AS total_sales, departments.overhead, (SUM(products.sales) - departments.overhead) AS total_profits
 FROM departments
 LEFT JOIN products
