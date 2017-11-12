@@ -41,8 +41,13 @@ function processOrder(productId, quantity) {
 		if (err) throw err;
 		var product = resp[productId-1];
 		if (quantity <= product.stock_quantity) {
+
+			// Calculate the new Quantity to be saved after this purchase
 			var newQuantity = product.stock_quantity-quantity;
-			var totalSales = quantity * product.price;
+
+			// Add quantity * purchase price to the product sales field
+			var totalSales = product.sales + quantity * product.price;
+
 			console.log("Product is in stock!");
 			connection.query(
 			"UPDATE products SET ? WHERE ?",
@@ -83,23 +88,18 @@ function getOrderInformation() {
 					return false;
 				return true;
 			}
-		}
-	])
-	.then(function(resp){
-		if (resp.product_id.toUpperCase() == 'Q') {
-			console.log("Exiting...");
-			connection.end();
-			return;
-		}
-
-		// We have the product that the customer is interested in
-		// Let us get the quantity the customer like to get of this product
-		var productID = resp.product_id;
-		inquirer.prompt([
+		},
 		{
 			type: "input",
 			name: "quantity",
 			message: "Enter Quantity: [Q for Quit] ",
+			when: function(answers) {
+				// This prompt is displayed only if the previous one goes through
+				if (answers.product_id == 'Q' || answers.product_id == 'q' ) {
+					return false;
+				}
+				return true;
+			},
 			validate: function(value) {
 				if (value.toUpperCase() == 'Q') {
 					return true;
@@ -109,16 +109,17 @@ function getOrderInformation() {
 				return true;
 			}
 		}
-		])
-		.then(function(resp){
-			if (resp.quantity.toUpperCase() == 'Q') {
-				console.log("Exiting...");
-				connection.end();
-				return;
-			}
-			// Let us process the order now
-			processOrder(productID, resp.quantity);		
-		});
+	])
+	.then(function(resp){
+		if (resp.product_id.toUpperCase() == 'Q' || resp.quantity.toUpperCase() == 'Q') {
+			// User chose to exit!
+			console.log("Exiting...");
+			connection.end();  // End connection to the database now
+			return;
+		}
+
+		// Process the order now that all conditions have been checked
+		processOrder(resp.product_id, resp.quantity);	
 	});
 }
 
