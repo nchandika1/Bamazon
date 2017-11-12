@@ -63,7 +63,7 @@ function createNewDept() {
 		// Send INSERT mySQL query to the database to create a new department
 		connection.query("INSERT INTO departments SET ?", post, function(error, response) {
 			if (error) throw error;
-			console.log("Added department.");
+			console.log("Success! Added new department.");
 			runSupervisorOperations();
 		});
 	});
@@ -91,39 +91,35 @@ function prettyPrintAllProducts(response) {
 
 // Main Function for Bamazon Supervisor Opeartions
 function runSupervisorOperations() {
-	// Prints the table format for the responses
-	connection.query("SELECT * FROM products", function(error, response) {
-		prettyPrintAllProducts(response);
-		console.log();
-		inquirer.prompt([
-			{
-				type: "list",
-				name: "options",
-				message: "What would you like to do? ",
-				choices: menu_options
-			}
-		])
-		.then(function(answers){
-			switch (answers.options) {
-				case menu_options[0]:
-					prettyPrintDepartments();
-					break;
-				case menu_options[1]:
-					productSalesByDept();
-					break;
-				case menu_options[2]:
-					createNewDept();
-					break;
-				case menu_options[3]:
-					console.log("Thank you for using Department view! Exiting...")
-					connection.end();
-					break;
-				default:
-					console.log("Invalid Option!");
-					connection.end();
-					break;
-			}
-		});
+
+	inquirer.prompt([
+		{
+			type: "list",
+			name: "options",
+			message: "What would you like to do? ",
+			choices: menu_options
+		}
+	])
+	.then(function(answers){
+		switch (answers.options) {
+			case menu_options[0]:
+				prettyPrintDepartments();
+				break;
+			case menu_options[1]:
+				productSalesByDept();
+				break;
+			case menu_options[2]:
+				createNewDept();
+				break;
+			case menu_options[3]:
+				console.log("Thank you for using Department view! Exiting...")
+				connection.end();
+				break;
+			default:
+				console.log("Invalid Option!");
+				connection.end();
+				break;
+		}
 	});
 }
 
@@ -158,6 +154,13 @@ connection.connect(function(error) {
 	console.log("\nWELCOME TO BAMAZON SUPERVISOR VIEW!");
 	console.log("-------------------------------------\n");
 	
-	// Run the main Supervisor operations
-	runSupervisorOperations();
+	// Get the products table at the beginning to display before we start the menu options
+	connection.query("SELECT * FROM products", function(error, response) {
+
+		// Prints the table format for the responses
+		prettyPrintAllProducts(response);
+		console.log();
+		// Run the main Supervisor operations
+		runSupervisorOperations();
+	});
 });

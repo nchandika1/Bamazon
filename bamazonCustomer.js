@@ -14,14 +14,13 @@ var connection = mysql.createConnection({
 
 // Pretty Print database entries in a table format using console.table 
 function prettyPrintAllProducts(response) {
-	var columns = ['ID', 'Product', 'Product Sales', 'Department', 'Price ($)', 'Stock'];
+	var columns = ['ID', 'Product', 'Department', 'Price ($)', 'Stock'];
 	var entries = [];
 
 	for (var i=0; i<response.length; i++) {
 		var item = [];
 		item.push(response[i].id);
 		item.push(response[i].product);
-		item.push(response[i].sales);
 		item.push(response[i].department);
 		item.push(response[i].price);
 		item.push(response[i].stock_quantity);
