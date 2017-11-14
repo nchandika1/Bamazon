@@ -28,4 +28,11 @@ Supervisor:
 * List a set of menu options:
     * View Product Sales by Department [Q for quit]
     * Create New Department [Q for quit]
+
+
+Screenshots:
+
+**Customer View **
+
+![alt next](CustomerScreen.png "Customer View")
     
