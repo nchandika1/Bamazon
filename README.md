@@ -32,7 +32,18 @@ Supervisor:
 
 Screenshots:
 
-**Customer View **
+** Customer View **
 
 ![alt next](CustomerScreen.png "Customer View")
+
+** Manager View **
+![alt next](ManagerScreen.png "Manager View")
+
+
+** Supervisor View **
+![alt next](SupervisorScreen1.png "Supervisor View 1")
+![alt next](SupervisorScreen2.png "Supervisor View 2")
+
+
+
     

@@ -135,7 +135,6 @@ function addNewProduct() {
 		}
 	])
 	.then(function(answers) {
-		console.log(answers);
 		var post = { 
 			product: answers.product,
 			department: answers.department,
